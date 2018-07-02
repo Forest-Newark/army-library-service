@@ -61,20 +61,37 @@ public class Composition {
     public Composition() {
     }
 
-    public Composition(String catagory, String libraryNumber, String title, String composer, String arranger, String ensemble, String copyright, String notes, String url, String editedBy) {
-        this.catagory = catagory;
-        this.libraryNumber = libraryNumber;
-        this.title = title;
-        this.composer = composer;
-        this.arranger = arranger;
-        this.ensemble = ensemble;
-        this.copyright = copyright;
-        this.notes = notes;
-        this.url = url;
-        this.editedBy = editedBy;
-    }
 
-    public Integer getId() {
+
+    
+
+	/**
+	 * @param catagory
+	 * @param libraryNumber
+	 * @param title
+	 * @param composer
+	 * @param arranger
+	 * @param ensemble
+	 * @param copyright
+	 * @param notes
+	 * @param url
+	 * @param editedBy
+	 */
+	public Composition(String catagory, String libraryNumber, String title, String composer, String arranger,
+			String ensemble, String copyright, String notes, String url, String editedBy) {
+		this.catagory = catagory;
+		this.libraryNumber = libraryNumber;
+		this.title = title;
+		this.composer = composer;
+		this.arranger = arranger;
+		this.ensemble = ensemble;
+		this.copyright = copyright;
+		this.notes = notes;
+		this.url = url;
+		this.editedBy = editedBy;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -58,8 +58,8 @@ public class CompositionController {
      * @return added composition
      */
 
-    @RequestMapping(value="/composition/add", method= RequestMethod.POST)
-    public Composition addNewComposition(@RequestBody Composition composition){
+    @RequestMapping(value="/saveOrUpdate", method= RequestMethod.POST)
+    public Composition saveOrUpdateComposition(@RequestBody Composition composition){
         compositionRepository.save(composition);
         return composition;
 
@@ -84,13 +84,12 @@ public class CompositionController {
         return compToUpdate;
     }
 
-
     /**
      * Delete Composition
      * @param composition
      * @return
      */
-    @RequestMapping(value="/composition/delete", method= RequestMethod.POST)
+    @RequestMapping(value="/delete", method= RequestMethod.POST)
     public Composition deleteComposition(@RequestBody Composition composition){
         compositionRepository.delete(composition);
         return composition;
@@ -116,7 +115,7 @@ public class CompositionController {
         Reader in = new FileReader(fileService.convert(file));
         //CSVFormat csvFileFormat = CSVFormat.DEFAULT.withQuote();
 
-        Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("Catagory", "libnum", "Title","Composer","Arranger","Copyright","Ensemble","Notes").withQuote('"').parse(in);
+        Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("Catagory", "libnum", "Title","Composer","Arranger","Copyright","Ensemble","Notes","Url","Last_Edit","Edited_By").withQuote('"').parse(in);
         for (CSVRecord record : records) {
             Composition composition = new Composition(
                     record.get("Catagory").trim(),
@@ -127,11 +126,10 @@ public class CompositionController {
                     record.get("Ensemble"),
                     record.get("Copyright"),
                     validateInput(record.get("Notes")),
-                    null,
+                    record.get("Url"),
                     userName
             );
-            System.out.println("Catagory::" + record);
-            if(!composition.getCatagory().equals("Catagory")){
+            if(!composition.getComposer().equalsIgnoreCase("Composer") ){
                 compositionRepository.save(composition);
             }
 
@@ -155,7 +153,7 @@ public class CompositionController {
         response.setHeader("Content-disposition", "attachment;filename="+reportName);
 
         ArrayList<String> rows = new ArrayList<String>();
-        rows.add("Catagory,libnum,Title,Composer,Arranger,Ensemble,Copyright,Notes,URL");
+        rows.add("Catagory,libnum,Title,Composer,Arranger,Ensemble,Copyright,Notes,Url,Last_Edit,Edited_By,");
         rows.add("\n");
         List<Composition> compositions = compositionRepository.findAll();
 
@@ -169,6 +167,8 @@ public class CompositionController {
                          validoutput(comp.getCopyright()) + "," +
                          validoutput(comp.getNotes())  + "," +
                          validoutput(comp.getUrl()) + "," +
+                         validoutput(comp.getLastEdit()) + "," +
+                         validoutput(comp.getEditedBy()) + "," +
                         "\n";
             rows.add(line);
             System.out.println(line);
