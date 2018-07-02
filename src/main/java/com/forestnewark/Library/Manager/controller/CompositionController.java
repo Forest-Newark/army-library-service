@@ -99,7 +99,6 @@ public class CompositionController {
     @RequestMapping(value="/util/catagory",method= RequestMethod.GET)
     public ResponseEntity<?> getAllCatagories(){
 
-
         return new ResponseEntity<Object>(compositionRepository.findDistinctCatagory(),HttpStatus.OK);
 
     }
